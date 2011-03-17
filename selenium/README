@@ -1,0 +1,8 @@
+import "selenium/server"
+import "selenium/gem"
+
+node default {
+    include selenium-server
+    include selenium-webdriver
+}
+
