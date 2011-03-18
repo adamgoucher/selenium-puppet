@@ -1,8 +1,11 @@
+import "apt-sources"
+import "jre6"
 import "selenium/server"
 import "selenium/gem"
 
 node default {
+    include apt-sources
+    include jre6
     include selenium-server
     include selenium-webdriver
 }
-
