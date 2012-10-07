@@ -9,10 +9,14 @@ class selenium::server {
       source => "puppet:///modules/selenium/selenium-server-standalone-2.25.0.jar",
     }
 
-    exec { 'start server':
-      path => $path,
-      command => "cmd.exe /c start cmd /k \"\"${jre7_home}\\bin\\java.exe\" -jar c:\\selenium\\selenium-server-standalone-2.25.0.jar\"",
-      require => File["c:/selenium/selenium-server-standalone-2.25.0.jar"],
+    notice("server is running? ${selenium_server_running}")
+
+    if $selenium_server_running == 'false' {
+      exec { 'start server':
+        path => $path,
+        command => "cmd.exe /c start cmd /k \"\"${jre7_home}\\bin\\java.exe\" -jar c:\\selenium\\selenium-server-standalone-2.25.0.jar\"",
+        require => File["c:/selenium/selenium-server-standalone-2.25.0.jar"],
+      }
     }
 
 
