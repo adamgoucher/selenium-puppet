@@ -19,7 +19,7 @@ case "${1:-''}" in
                 then
                         echo "Selenium is already running."
                 else
-                        java -jar /home/cast/Downloads/selenium-server-standalone-2.25.0.jar -port $PORT > /tmp/selenium.log 2>&1 & echo $! > /var/run/selenium-6000.pid
+                        java -jar /home/cast/Downloads/selenium-server-standalone-2.28.0.jar -port $PORT > /tmp/selenium.log 2>&1 & echo $! > /var/run/selenium-6000.pid
                         echo "Starting Selenium..."
 
                         error=$?
@@ -52,7 +52,7 @@ case "${1:-''}" in
                         kill -HUP `cat /var/run/selenium-6000.pid`
                         test -f /var/run/selenium-6000.pid && rm -f /var/run/selenium-6000.pid 
                         sleep 1
-                        java -jar /home/adam/Downloads/selenium-server-standalone-2.25.0.jar -port 6000 > /tmp/selenium.log 2>&1 & echo $! > /var/run/selenium-6000.pid
+                        java -jar /home/adam/Downloads/selenium-server-standalone-2.28.0.jar -port 6000 > /tmp/selenium.log 2>&1 & echo $! > /var/run/selenium-6000.pid
                         echo "Reload Selenium..."
                 else
                         echo "Selenium isn't running..."
