@@ -1,0 +1,107 @@
+{
+  "types": [
+    {
+      "doc": "    Manages registry keys on Windows systems.\n\n    Keys within HKEY_LOCAL_MACHINE (hklm) or HKEY_CLASSES_ROOT (hkcr) are\n    supported.  Other predefined root keys, e.g. HKEY_USERS, are not\n    currently supported.\n\n    If Puppet creates a registry key, Windows will automatically create any\n    necessary parent registry keys that do not exist.\n\n    Puppet will not recursively delete registry keys.\n\n    **Autorequires:** Any parent registry key managed by Puppet will be\n    autorequired.\n",
+      "parameters": [
+        {
+          "doc": "The path to the registry key to manage.  For example; 'HKLMSoftware',\n      'HKEY_LOCAL_MACHINESoftwareVendor'.  If Puppet is running on a 64-bit\n      system, the 32-bit registry key can be explicitly managed using a\n      prefix.  For example: '32:HKLMSoftware'",
+          "name": "path"
+        },
+        {
+          "doc": "Whether to delete any registry value associated with this key that is\n    not being managed by puppet.  Valid values are `true`, `false`.",
+          "name": "purge_values"
+        }
+      ],
+      "providers": [
+        {
+          "doc": "Default for `operatingsystem` == `windows`.",
+          "name": "registry"
+        }
+      ],
+      "name": "registry_key",
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        }
+      ]
+    },
+    {
+      "doc": "    Manages registry values on Windows systems.\n\n    The `registry_value` type can manage registry values.  See the\n    `type` and `data` attributes for information about supported\n    registry types, e.g. REG_SZ, and how the data should be specified.\n\n    **Autorequires:** Any parent registry key managed by Puppet will be\n    autorequired.\n",
+      "parameters": [
+        {
+          "doc": "The path to the registry value to manage.  For example:\n      'HKLMSoftwareValue1', 'HKEY_LOCAL_MACHINESoftwareVendorValue2'.\n      If Puppet is running on a 64-bit system, the 32-bit registry key can\n      be explicitly manage using a prefix.  For example:\n      '32:HKLMSoftwareValue3'",
+          "name": "path"
+        }
+      ],
+      "providers": [
+        {
+          "doc": "Default for `operatingsystem` == `windows`.",
+          "name": "registry"
+        }
+      ],
+      "name": "registry_value",
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        },
+        {
+          "doc": "The Windows data type of the registry value.  Puppet provides\n      helpful names for these types as follows:\n\n      * string => REG_SZ\n      * array  => REG_MULTI_SZ\n      * expand => REG_EXPAND_SZ\n      * dword  => REG_DWORD\n      * qword  => REG_QWORD\n      * binary => REG_BINARY\n\n      Valid values are `string`, `array`, `dword`, `qword`, `binary`, `expand`.",
+          "name": "type"
+        },
+        {
+          "doc": "The data stored in the registry value.  Data should be specified\n     as a string value but may be specified as a Puppet array when the\n     type is set to `array`.",
+          "name": "data"
+        }
+      ]
+    }
+  ],
+  "version": "0.1.1",
+  "project_page": "http://links.puppetlabs.com/registry-module",
+  "checksums": {
+    "spec/spec_helper.rb": "fd0e2c72fac8f6e2df53a48662d150f8",
+    "manifests/compliance_example.pp": "25a15c60d0e4a28e7d34ada1c62ef43d",
+    "acceptance/tests/resource/registry/should_tolerate_mixed_case.rb": "7fc20be924522bc0605a8adf7259715d",
+    "lib/puppet/modules.rb": "a98aa8694f56fbfc7e185ffd361c9ca8",
+    "acceptance/tests/resource/registry/should_manage_values.rb": "2f34fd133be2041b441b6da09ca5483b",
+    "lib/puppet/type/registry_value.rb": "fa9b9f399acf34f6bdabd015c8c905ec",
+    "CHANGELOG": "f3489b88621c3ec10877166a213046f0",
+    "acceptance/tests/resource/registry/should_create_key.rb": "89b5f891d068ea6dc60bbc046a97579c",
+    "manifests/service_example.pp": "6321731674cc7538019440adbd720b09",
+    "lib/puppet/provider/registry_value/registry.rb": "8b22d703006662e6602d653b602318e9",
+    "acceptance/tests/resource/registry/should_have_defined_type.rb": "27a20c4caba9176bf3ce15de694f7d9f",
+    "acceptance/lib/systest.rb": "08cde457e07db7b82a1ce9ff502dd495",
+    "acceptance/lib/systest/util.rb": "5fe316915896e133129bec03cfeb6f3c",
+    "lib/puppet/modules/registry/provider_base.rb": "20d685284e6bd1ef422aaec056a35d28",
+    "Rakefile": "5f442b52d07e2ad72d97063cf31fbea9",
+    "manifests/purge_example.pp": "0d5fc9fad07a324d9a215c90276bad18",
+    "tests/registry_examples.pp": "28fe1b04385d91f301880920c7f343c0",
+    "manifests/service.pp": "02c5d225d6171b08d8d71d04db053039",
+    "tests/init.pp": "adc764ff5b1baac5d8f373323704f6bc",
+    "spec/unit/puppet/type/registry_key_spec.rb": "d3771081ad78172dff430cb1ad69b6d0",
+    "lib/puppet/type/registry_key.rb": "f88b2f10f77cb58646e8e717fd8cbd45",
+    "acceptance/tests/resource/registry/should_pluginsync.rb": "5cdea452584fa6202344773a0db788f6",
+    "spec/unit/puppet/type/registry_value_spec.rb": "43e0064a097e99f126af4b0a4369a2e6",
+    "README.markdown": "a1812edb36e4734d17794dcf407244e5",
+    "manifests/value.pp": "7090190903bb2038215ce7a96278f971",
+    "spec/watchr.rb": "0d23eac3b37babe4229307850cfc4240",
+    "Modulefile": "2185a00c47118df351347d22909f370e",
+    "manifests/init.pp": "c74116d7cbf6f1cc5ee36cc85b7dc81c",
+    "lib/puppet/provider/registry_key/registry.rb": "a994c343128b6331d62d1a09793ace76",
+    "lib/puppet/modules/registry.rb": "1539c0313d2f2fd486a296923d00bf26",
+    "acceptance/lib/systest/util/registry.rb": "4a4e0412f4ea0b1a96e43b7a5a25b789"
+  },
+  "license": "Apache License, Version 2.0",
+  "dependencies": [
+    {
+      "version_requirement": ">= 2.3.0",
+      "name": "puppetlabs/stdlib"
+    }
+  ],
+  "source": "git://github.com/puppetlabs/puppetlabs-registry.git",
+  "summary": "This module provides a native type and provider to manage keys and values in the Windows Registry",
+  "description": "This module provides a native type and provider to manage keys and values in the Windows Registry",
+  "author": "puppetlabs",
+  "name": "puppetlabs-registry"
+}
