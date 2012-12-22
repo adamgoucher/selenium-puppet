@@ -2,15 +2,15 @@ class jre {
   case $operatingsystem {
     'windows': {
       notice("jre7_version is ${jre7_version}")
-      unless $jre7_version == '1.7.0_07' {
-        file { 'c://temp//jre-7u7-windows-i586.exe':
-          source => 'puppet:///modules/jre/jre-7u7-windows-i586.exe',
+      unless $jre7_version == '1.7.0_10' {
+        file { 'c://temp//jre-7u10-windows-i586.exe':
+          source => 'puppet:///modules/jre/jre-7u10-windows-i586.exe',
           mode => '777',
         }
 
-        package { 'Java 7 Update 7':
+        package { 'Java 7 Update 10':
           ensure => installed,
-          source => 'c://temp//jre-7u7-windows-i586.exe',
+          source => 'c://temp//jre-7u10-windows-i586.exe',
           install_options => [
             '/s', '/v/qn" ADDLOCAL=jrecore REBOOT=Suppress JAVAUPDATE=0"'
           ],
@@ -19,7 +19,7 @@ class jre {
 
         exec { 'cleanup':
           path => $path,
-          command => 'cmd.exe /c del c:\temp\jre-7u7-windows-i586.exe',
+          command => 'cmd.exe /c del c:\temp\jre-7u10-windows-i586.exe',
         }
       }
     }
