@@ -9,10 +9,3 @@ Facter.add(:jre7_version) do
   end
 end
 
-Facter.add(:jre6_version) do
-  confine :kernel => :windows
-  setcode do
-    version = Facter::Util::Registry.hklm_read('SOFTWARE\JavaSoft\Java Runtime Environment', 'Java6FamilyVersion')
-    version ||= nil
-  end
-end
