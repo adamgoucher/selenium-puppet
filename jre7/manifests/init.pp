@@ -1,7 +1,7 @@
 # Installs the Oracle JRE 1.7.0 u10
 class jre7 {
   notice("jre7_version is '${::jre7_version}'")
-  unless $::jre7_version == '1.7.0_10' {  
+  unless $::jre7_version =~ /1.7.0[_-]10/ {  
     case $::operatingsystem {
       windows: {
         file { 'c://temp//jre-7u10-windows-i586.exe':
@@ -52,22 +52,22 @@ class jre7 {
           fail("Module ${module_name} is not supported on ${::architecture}. Yet.")
         }
         
-        file { "/tmp/jre-7u10-linux-${arch}.deb":
-          source  => "puppet:///modules/jre7/jre-7u10-linux-${arch}.deb",
+        file { "/tmp/jre_1.7.0-10_${::architecture}.deb":
+          source  => "puppet:///modules/jre7/jre_1.7.0-10_${::architecture}.deb",
           mode    => '0777',
         }
 
         package { 'Java 7 Update 10':
           name      => 'jre',
           ensure    => installed,
-          source    => "/tmp/jre-7u10-linux-${arch}.deb",
+          source    => "/tmp/jre_1.7.0-10_${::architecture}.deb",
           provider  => dpkg,
           before    => Exec['cleanup'],
         }
 
         exec { 'cleanup':
           path    => $::path,
-          command => "rm /tmp/jre-7u10-linux-${arch}.deb",
+          command => "rm /tmp/jre_1.7.0-10_${::architecture}.deb",
         }
       }
       default: {
