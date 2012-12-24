@@ -48,12 +48,10 @@ class jre7 {
         }
       }
       ubuntu, debian: {
-        if $::architecture == 'i386' {
-          $arch = 'i386'
-        }
-        else {
+        unless $::architecture in ['i386', 'amd64'] {
           fail("Module ${module_name} is not supported on ${::architecture}. Yet.")
         }
+        
         file { "/tmp/jre-7u10-linux-${arch}.deb":
           source  => "puppet:///modules/jre7/jre-7u10-linux-${arch}.deb",
           mode    => '0777',
