@@ -26,13 +26,12 @@ class jre7 {
       centos, redhat: {
         if $::architecture == 'x86_64' {
           $arch = 'x64'
-        }
-        elseif $::architecture == 'i386' {
+        } elsif $::architecture == 'i386' {
           $arch = 'i586'
-        }
-        else {
+        } else {
           fail("Module ${module_name} is not supported on ${::architecture}. Yet.")
         }
+
         file { "/tmp/jre-7u10-linux-${arch}.rpm":
           source  => "puppet:///modules/jre7/jre-7u10-linux-${arch}.rpm",
           mode    => '0777',
