@@ -18,19 +18,28 @@ class selenium::user {
     registry::value { 'autologin-username':
       key => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
       value => "DefaultUserName",
-      data => "selenium-user"
+      data => "selenium-user",
+      notify => Exec['shutdown'],
     }
 
     registry::value { 'autologin-password':
       key => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
       value => "DefaultPassword",
-      data => "selenium"
+      data => "selenium",
+      notify => Exec['shutdown'],
     }
 
     registry::value { 'autologin-enable':
       key => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
       value => "AutoAdminLogon",
-      data => "1"
+      data => "1",
+      notify => Exec['shutdown'],
+    }
+
+    exec { 'shutdown':
+      command => 'cmd.exe /c shutdown.exe -r -f -t 0',
+      path => $path,
+      refreshonly => true,
     }
   } 
 }
