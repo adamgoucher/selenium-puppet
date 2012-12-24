@@ -1,11 +1,11 @@
 # Installs the Oracle JRE 1.7.0 u10
 class jre7 {
-  notice("jre7_version is ${jre7_version}")
-  unless $jre7_version == '1.7.0_10' {  
+  notice("jre7_version is '${::jre7_version}'")
+  unless $::jre7_version == '1.7.0_10' {  
     case $::operatingsystem {
       windows: {
         file { 'c://temp//jre-7u10-windows-i586.exe':
-          source  => 'puppet:///modules/jre/jre-7u10-windows-i586.exe',
+          source  => 'puppet:///modules/jre7/jre-7u10-windows-i586.exe',
           mode    => '0777',
         }
 
@@ -24,8 +24,9 @@ class jre7 {
         }
       }
       centos, redhat: {
+        notice("installing ... ")
         file { '/tmp/jre-7u10-linux-x64.rpm':
-          source  => 'puppet:///modules/jre/jre-7u10-linux-x64.rpm',
+          source  => 'puppet:///modules/jre7/jre-7u10-linux-x64.rpm',
           mode    => '0777',
         }
 
