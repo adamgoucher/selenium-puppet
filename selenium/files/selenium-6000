@@ -1,0 +1,67 @@
+#!/bin/bash
+# blatantly lifted from http://robfan.com/post/122618829/continuous-integration-selenium-firefox-flash
+
+### BEGIN INIT INFO
+# Provides:          selenium
+# Required-Start:    $remote_fs $syslog $network $xvfb
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start the Selenium Server on port 6000
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+DISPLAY=:99
+PORT=6000
+case "${1:-''}" in
+        'start')
+                if test -f /var/run/selenium-6000.pid
+                then
+                        echo "Selenium is already running."
+                else
+                        java -jar /home/cast/Downloads/selenium-server-standalone-2.28.0.jar -port $PORT > /tmp/selenium.log 2>&1 & echo $! > /var/run/selenium-6000.pid
+                        echo "Starting Selenium..."
+
+                        error=$?
+                        if test $error -gt 0
+                        then
+                                echo "${bon}Error $error! Couldn't start Selenium!${boff}"
+                        fi
+                fi
+        ;;
+        'stop')
+                if test -f /var/run/selenium-6000.pid
+                then
+                        echo "Stopping Selenium..."
+                        PID=`cat /var/run/selenium-6000.pid`
+                        kill -3 $PID
+                        if kill -9 $PID ;
+                                then
+                                        sleep 2
+                                        test -f /var/run/selenium-6000.pid && rm -f /var/run/selenium-6000.pid
+                               else
+                                        echo "Selenium could not be stopped..."
+                                fi
+                else
+                        echo "Selenium is not running."
+                fi
+                ;;
+        'restart')
+                if test -f /tmp/selenium.pid
+                then
+                        kill -HUP `cat /var/run/selenium-6000.pid`
+                        test -f /var/run/selenium-6000.pid && rm -f /var/run/selenium-6000.pid 
+                        sleep 1
+                        java -jar /home/adam/Downloads/selenium-server-standalone-2.28.0.jar -port 6000 > /tmp/selenium.log 2>&1 & echo $! > /var/run/selenium-6000.pid
+                        echo "Reload Selenium..."
+                else
+                        echo "Selenium isn't running..."
+                fi
+                ;;
+        *)      # no parameter specified
+                echo "Usage: $SELF start|stop|restart"
+                exit 1
+        ;;
+esac
+
+
