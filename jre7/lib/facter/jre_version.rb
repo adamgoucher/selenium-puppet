@@ -12,7 +12,7 @@ end
 Facter.add(:jre7_version) do
   confine :operatingsystem => %w{CentOS RedHat}
   setcode do
-    version = `rpm -qa jre | awk -F- ' { print $2 }'`
+    version = `rpm -qa jre | awk -F- ' { print $2 }'`.chomp
     version ||= nil
   end
 end
