@@ -20,7 +20,7 @@ end
 Facter.add(:jre7_version) do
   confine :operatingsystem => %w{Ubuntu Debian}
   setcode do
-    version = `rpm -qa jre | awk -F- ' { print $2 }'`.chomp
+    version = `dpkg -s jre 2>&1 | grep Version | awk '{print $2}'`.chomp
     version ||= nil
   end
 end
