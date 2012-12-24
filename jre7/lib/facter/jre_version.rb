@@ -16,3 +16,11 @@ Facter.add(:jre7_version) do
     version ||= nil
   end
 end
+
+Facter.add(:jre7_version) do
+  confine :operatingsystem => %w{Ubuntu Debian}
+  setcode do
+    version = `rpm -qa jre | awk -F- ' { print $2 }'`.chomp
+    version ||= nil
+  end
+end

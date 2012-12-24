@@ -24,7 +24,12 @@ class jre7 {
         }
       }
       centos, redhat: {
-        notice("installing ... ")
+        if $::architecture == 'x86_64' {
+          $arch = 'x64'
+        }
+        else {
+          fail("Module ${module_name} is not supported on ${::architecture}. Yet.")
+        }
         file { '/tmp/jre-7u10-linux-x64.rpm':
           source  => 'puppet:///modules/jre7/jre-7u10-linux-x64.rpm',
           mode    => '0777',
@@ -40,6 +45,31 @@ class jre7 {
         exec { 'cleanup':
           path    => $::path,
           command => 'rm /tmp/jre-7u10-linux-x64.rpm',
+        }
+      }
+      ubuntu, debian: {
+        if $::architecture == 'i386' {
+          $arch = 'i386'
+        }
+        else {
+          fail("Module ${module_name} is not supported on ${::architecture}. Yet.")
+        }
+        file { "/tmp/jre-7u10-linux-${arch}.deb":
+          source  => "puppet:///modules/jre7/jre-7u10-linux-${arch}.deb",
+          mode    => '0777',
+        }
+
+        package { 'Java 7 Update 10':
+          name      => 'jre',
+          ensure    => installed,
+          source    => "/tmp/jre-7u10-linux-${arch}.deb",
+          provider  => dpkg,
+          before    => Exec['cleanup'],
+        }
+
+        exec { 'cleanup':
+          path    => $::path,
+          command => "rm /tmp/jre-7u10-linux-${arch}.deb",
         }
       }
       default: {
