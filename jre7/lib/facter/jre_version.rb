@@ -26,3 +26,13 @@ Facter.add(:jre7_version) do
     version ||= nil
   end
 end
+
+Facter.add(:jre7_version) do
+  confine :operatingsystem => %w{Darwin}
+  setcode do
+    version = `/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java -version 2>&1 |awk 'NR==1{ gsub(/"/,""); print $3 }'`.chomp
+    version ||= nil
+  end
+end
+
+
