@@ -72,6 +72,25 @@ class jre7 {
           command => "rm /tmp/jre_1.7.0-10_${::architecture}.deb",
         }
       }
+      darwin: {
+        file { "/tmp/jre-7u10-macosx-x64.dmg":
+          source  => "puppet:///modules/jre7/jre-7u10_macosx-x64.dmg",
+          mode    => '0777',
+        }
+
+        package { 'Java 7 Update 10':
+          ensure    => installed,
+          name      => 'jre',
+          source    => "/tmp/jre-7u10-macosx-x64.dmg",
+          provider  => pkgdmg,
+          before    => Exec['cleanup'],
+        }
+
+        exec { 'cleanup':
+          path    => $::path,
+          command => "rm /tmp/jre-7u10-macosx-x64.dmg",
+        }
+      }
       default: {
         fail("Module ${module_name} is not supported on ${::operatingsystem}")
       }
