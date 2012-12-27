@@ -73,8 +73,9 @@ class jre7 {
         }
       }
       darwin: {
+        notice('installing')
         file { "/tmp/jre-7u10-macosx-x64.dmg":
-          source  => "puppet:///modules/jre7/jre-7u10_macosx-x64.dmg",
+          source  => "puppet:///modules/jre7/jre-7u10-macosx-x64.dmg",
           mode    => '0777',
         }
 
