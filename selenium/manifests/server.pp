@@ -12,7 +12,7 @@ class selenium::server {
 
     notice("server is running? ${::selenium_server_running}")
 
-    if $::selenium_server_running == false {
+    unless $::selenium_server_running {
       exec { 'start server':
         path    => $::path,
         command => "cmd.exe /c start cmd /k \"\"${jre7_home}\\bin\\java.exe\" -jar c:\\selenium\\selenium-server-standalone-2.28.0.jar\"",
