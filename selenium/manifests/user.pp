@@ -35,10 +35,10 @@ class selenium::user {
     }
 
     registry::value { 'autologin-enable':
-      key   => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
-      value => 'AutoAdminLogon',
-      data  => '1',
-      notify    => Class['selenium::user::reboot'],
+      key    => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
+      value  => 'AutoAdminLogon',
+      data   => '1',
+      notify => Class['selenium::user::reboot'],
     }
   }
 }
