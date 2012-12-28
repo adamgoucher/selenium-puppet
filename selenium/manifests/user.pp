@@ -17,24 +17,38 @@ class selenium::user {
       comment   => 'user for selenium scripts',
       password  => $selenium_user_password,
       groups    => ['Administrators'],
+      notify    => Class['selenium::user::reboot'],
     }
 
     registry::value { 'autologin-username':
-      key   => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
-      value => 'DefaultUserName',
-      data  => "$selenium_user_username"
+      key    => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
+      value  => 'DefaultUserName',
+      data   => "$selenium_user_username",
+      notify => Class['selenium::user::reboot'],
     }
 
     registry::value { 'autologin-password':
-      key   => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
-      value => 'DefaultPassword',
-      data  => "$selenium_user_password"
+      key    => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
+      value  => 'DefaultPassword',
+      data   => "$selenium_user_password",
+      notify => Class['selenium::user::reboot'],
     }
 
     registry::value { 'autologin-enable':
       key   => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
       value => 'AutoAdminLogon',
-      data  => '1'
+      data  => '1',
+      notify    => Class['selenium::user::reboot'],
+    }
+  }
+}
+
+class selenium::user::reboot {
+  if $::operatingsystem == 'windows' {
+    exec { 'reboot':
+      path        => $::path,
+      command     => 'cmd.exe /c shutdown -r -t 0',
+      refreshonly => true,
     }
   }
 }
