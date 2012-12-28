@@ -1,7 +1,7 @@
 # Installs a user to run the Selenium server as
 class selenium::user {
-  $selenium_user_username = hiera('selenium_user_username', 'selenium_user')
-  $selenium_user_password = hiera('selenium_user_password', 'selenium')
+  $selenium_user_username = hiera('selenium_user_username', 'monkey')
+  $selenium_user_password = hiera('selenium_user_password', 'butt')
 
   if $::operatingsystem == 'windows' {
     file { "${::profiles_directory}/${::selenium_user_username}":
@@ -22,13 +22,13 @@ class selenium::user {
     registry::value { 'autologin-username':
       key   => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
       value => 'DefaultUserName',
-      data  => $selenium_user_username
+      data  => "$selenium_user_username"
     }
 
     registry::value { 'autologin-password':
       key   => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
       value => 'DefaultPassword',
-      data  => $selenium_user_password
+      data  => "$selenium_user_password"
     }
 
     registry::value { 'autologin-enable':
