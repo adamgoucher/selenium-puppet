@@ -4,20 +4,19 @@ class selenium::user {
   $selenium_user_password = hiera('selenium_user_password', 'butt')
 
   if $::operatingsystem == 'windows' {
-    file { "${::profiles_directory}/${::selenium_user_username}":
-      ensure => directory
-    }
-
-    file { "${::profiles_directory}/${::selenium_user_username}/NTUSER.dat":
-      ensure => present,
-      source => "${::profiles_directory}/Default User/NTUSER.dat",
-    }
-
     user { $selenium_user_username:
       comment   => 'user for selenium scripts',
       password  => $selenium_user_password,
       groups    => ['Administrators'],
+      managehome => true,
       notify    => Class['selenium::user::reboot'],
+    }
+
+    file { "${::profiles_directory}/$selenium_user_username/Start Menu/Programs/Startup/selenium-server.bat":
+      ensure => present,
+      content => template('selenium/selenium-server-windows.erb'),
+      require => User["$selenium_user_username"],
+      notify => Class['selenium::user::reboot'],
     }
 
     registry::value { 'autologin-username':
