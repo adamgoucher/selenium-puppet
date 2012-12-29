@@ -9,6 +9,8 @@ class selenium::user {
       password  => $selenium_user_password,
       groups    => ['Administrators'],
       managehome => true,
+      provider => extended_windows_adsi,
+      screensaver_enabled=> false,
       notify    => Class['selenium::user::reboot'],
     }
 
