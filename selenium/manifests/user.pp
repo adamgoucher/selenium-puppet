@@ -33,11 +33,12 @@ class selenium::user {
       notify => Class['selenium::user::reboot'],
     }
 
-    registry::value { 'autologin-enable':
-      key    => 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon',
-      value  => 'AutoAdminLogon',
-      data   => '1',
-      notify => Class['selenium::user::reboot'],
+    if $::env_username == $selenium_user_username {
+      registry::value { 'disable screensaver':
+        key    => 'HKCU\Control Panel\Desktop',
+        value  => 'ScreenSaveActive',
+        data   => '0'
+      }
     }
   }
 }
