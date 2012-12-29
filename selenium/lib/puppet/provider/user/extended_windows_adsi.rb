@@ -1,9 +1,9 @@
-require 'puppet/util/adsi'
-
 Puppet::Type.type(:user).provide :extended_windows_adsi, :parent => :windows_adsi, :source => :windows_adsi do
   desc "Local user management for Windows -- with some extra goodies."
 
   confine    :operatingsystem => :windows
+
+  has_features   :manages_homedir, :manages_passwords
   
   def screensaver_enabled
     v = `reg query "#{user.uid}\\control panel\\desktop" /v screensaveactive`

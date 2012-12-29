@@ -4,13 +4,13 @@ class selenium::user {
   $selenium_user_password = hiera('selenium_user_password', 'butt')
 
   if $::operatingsystem == 'windows' {
-    user { $selenium_user_username:
+    extended_windows_user { $selenium_user_username:
       comment   => 'user for selenium scripts',
       password  => $selenium_user_password,
       groups    => ['Administrators'],
       managehome => true,
       provider => extended_windows_adsi,
-      screensaver_enabled=> false,
+      screensaver_enabled => false,
       notify    => Class['selenium::user::reboot'],
     }
 
@@ -46,7 +46,7 @@ class selenium::user {
 }
 
 class selenium::user::reboot {
-  if $::operatingsystem == 'windows' {
+  if $::operatingsystem == 'windowsx' {
     exec { 'reboot':
       path        => $::path,
       command     => 'cmd.exe /c shutdown -r -t 0',
