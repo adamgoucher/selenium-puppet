@@ -5,9 +5,9 @@ class selenium::server {
       ensure => directory,
     }
 
-    file { 'c:/selenium/selenium-server-standalone-2.28.0.jar':
+    file { 'c:/selenium/selenium-server-standalone-3.141.59.jar':
       ensure => present,
-      source => 'puppet:///modules/selenium/selenium-server-standalone-2.28.0.jar',
+      source => 'puppet:///modules/selenium/selenium-server-standalone-3.141.59.jar',
     }
 
     notice("server is running? ${::selenium_server_running}")
@@ -15,8 +15,8 @@ class selenium::server {
     unless $::selenium_server_running {
       exec { 'start server':
         path    => $::path,
-        command => "cmd.exe /c start cmd /k \"\"${jre7_home}\\bin\\java.exe\" -jar c:\\selenium\\selenium-server-standalone-2.28.0.jar\"",
-        require => File['c:/selenium/selenium-server-standalone-2.28.0.jar'],
+        command => "cmd.exe /c start cmd /k \"\"${jre7_home}\\bin\\java.exe\" -jar c:\\selenium\\selenium-server-standalone-3.141.59.jar\"",
+        require => File['c:/selenium/selenium-server-standalone-3.141.59.jar'],
       }
     }
 
@@ -26,9 +26,9 @@ class selenium::server {
       ensure => directory,
     }
 
-    file {'/usr/local/selenium/selenium-server-standalone-2.28.0.jar':
+    file {'/usr/local/selenium/selenium-server-standalone-3.141.59.jar':
       ensure => present,
-      source => 'puppet:///modules/selenium/selenium-server-standalone-2.28.0.jar',
+      source => 'puppet:///modules/selenium/selenium-server-standalone-3.141.59.jar',
     }
 
     file {'/etc/init.d/selenium-server':
