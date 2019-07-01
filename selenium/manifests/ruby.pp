@@ -1,7 +1,7 @@
 # Installs the selenium-webdriver gem
 class selenium::ruby {
   package { 'selenium-webdriver':
-    ensure    => 2.27.2,
+    ensure    => 3.142.3,
     provider  => gem
   }
 }
